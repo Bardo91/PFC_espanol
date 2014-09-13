@@ -134,7 +134,7 @@ Este tipo de compresión es muy útil en las imágenes que tienen colores homog�
 %----------------------------------------------------------
 \subsection{Agrupaci\'on de p\'ixeles. Creaci\'on del objeto}
 
-Once every row of the picture is encoded with RLE it's necessary to connect the regions to extract information about the objects \ref{fig:RLE1}. This is made in two phases. The first one seek per line the adjacent runs with the same color and connect them \ref{fig:RLE2}. Once every line was explored \ref{fig:RLE3}, the second phase look for objects that are splitted due to the first clustering \ref{fig:RLE4}. During the last phase every info is stored in an $"object class"$ that store the size (in pixels), the bouncing box and its centroid.
+Una vez comprimida la imagen es necesario conectar las regiones de la imagen para crear los objetos \ref{fig:RLE1}. Esto se hace en dos etapas. La primera se buscan las relaciones entre una fila y su consecutiva, tal que se unen si son del mismo color \ref{fig:RLE2}. Una vez exploradas todas las l\'ineas \ref{fig:RLE3}, la segunda etápa busca los objetos divididos y los agrupa \ref{fig:RLE4}. En esta \'ultima etapa los se almacena la información dentro de la $clase objeto$, que contiene la información de los RLE.
 
 \begin{figure}
 	\centering
@@ -142,13 +142,13 @@ Once every row of the picture is encoded with RLE it's necessary to connect the 
 		\centering
 		\begin{subfigure}{0.4\linewidth}
 			\includegraphics[width=\linewidth]{../Images/c2/RLE1}
-			\caption{Runs are disjointed}
+			\caption{Conjuntos no unidos}
 			\label{fig:RLE1}
 		\end{subfigure}
 		%--------------------------------------------------------------------
 		\begin{subfigure}{0.4\linewidth}
 			\includegraphics[width=\linewidth]{../Images/c2/RLE2}
-			\caption{Vertical scanning result in neighbors clustering}
+			\caption{Recorrido vertical}
 			\label{fig:RLE2}
 		\end{subfigure}
 	\end{subfigure}
@@ -157,15 +157,15 @@ Once every row of the picture is encoded with RLE it's necessary to connect the 
 		\centering
    		\begin{subfigure}{0.4\linewidth}
    			\includegraphics[width=\linewidth]{../Images/c2/RLE3}
-   			\caption{All lines joined}
+   			\caption{Conjuntos unidos}
    			\label{fig:RLE3}
    		\end{subfigure}
    		%--------------------------------------------------------------------
    		\begin{subfigure}{0.4\linewidth}
    			\includegraphics[width=\linewidth]{../Images/c2/RLE4}
-   			\caption{Last scanning looking for splitted objects}
+   			\caption{B\'usqueda de objetos divididos}
    			\label{fig:RLE4}
    		\end{subfigure}
 	\end{subfigure}
-	\caption{Object creation  from RLEs}
+	\caption{Creaci\'on de objetos desde los RLE}
 \end{figure}

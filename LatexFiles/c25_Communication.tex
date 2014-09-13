@@ -1,0 +1,24 @@
+%----------------------------------------------------------------
+\subsection{Hardware}
+\begin{wrapfigure}{r}{0.5\textwidth}
+	\includegraphics[width=0.5\textwidth]{../Images/c2/hardware_comm.jpg}
+	\caption{WiFi PA and USB adapters}
+	\label{fig:hardwareComm}
+\end{wrapfigure}
+
+This section briefly describes the architecture of communication (For more information read the Appendix \ref{chap:c6_network}). In order to be versatile and flexible, the experiments will use one router and one WiFi adapter per quadrotor. We talk about flexibility because with those devices don't restrict the software, i. e., the whole system can bee exchanged with GSM modules and cloud computation or inside a computer with simulated targets and persecutors (Quadrotors).
+
+%----------------------------------------------------------------
+\subsection{Software, protocol and messages}
+
+\begin{wrapfigure}{r}{0.5\textwidth}
+	\begin{center}
+		\includegraphics[width=0.5\textwidth, natwidth=448, natheight=263]{../Images/c2/socketstcpip.png}
+	\end{center}
+	\caption{Sockets and TCP-IP}
+	\label{fig:socketstcpip}
+\end{wrapfigure}
+
+To communicate between devices every application (or program) use a sockets \cite{SocketWiki}. Particularly, an implementation developed initially for this project that can be found in BOViL \cite{BOViL}. Sockets are configured with the TCP/IP protocol \cite{TCPIP}. \\
+Every step of the program, after the segmentation of the image, an array of centroids is generated that correspond to the targets detected by quadrotor's camera. This array is send through the socket byte per byte (or character per character) following this format \{App;quadID;color;centroids\}. For example $\{14;01;5;123-231,142-22,...,600-232\}$
+

@@ -1,0 +1,221 @@
+%----------------------------------------------------------
+\documentclass[11pt, oneside]{book} %
+
+\usepackage{amsmath} %
+\usepackage{amsfonts} %
+\usepackage{amssymb} %
+\usepackage{graphicx} %
+\usepackage{wrapfig} %
+\usepackage{sidecap}
+\usepackage{subcaption}
+\usepackage{setspace}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+
+%----------------------------------------------------------
+\newtheorem{theorem}{Theorem}
+\newtheorem{acknowledgement}[theorem]{Acknowledgement}
+%\newtheorem{algorithm}[theorem]{Algorithm}
+\newtheorem{axiom}[theorem]{Axiom}
+\newtheorem{case}[theorem]{Case}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{conclusion}[theorem]{Conclusion}
+\newtheorem{condition}[theorem]{Condition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{criterion}[theorem]{Criterion}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{solution}[theorem]{Solution}
+\newtheorem{summary}[theorem]{Summary} 
+\newenvironment{proof}[1][Proof]{\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
+%----------------------------------------------------------
+
+\usepackage{hyperref}
+\onehalfspacing
+%----------------------------------------------------------
+\begin{document}
+
+% First Page.
+\frontmatter
+\title{Undergraduate Final Degree Project. \\ Development and Implementation of Tracking Algorithm using Unmanned Aerial Vehicles}
+\author{Pablo Ram\'on Soria}
+\date{2014-09-15}
+\maketitle
+
+%----------------------------------------------------------
+% Table of contenst
+\tableofcontents
+
+%----------------------------------------------------------
+% Preface
+\chapter{Preface}
+\input{Preface.tex}
+
+%----------------------------------------------------------
+% Chapter 1. Introduction
+\chapter{Introduction}
+\section{Objectives}
+\input{c12_Objectives}
+
+\section{State of Art}
+\input{c11_State_of_Art}
+%% Started the main Content
+\mainmatter
+
+%----------------------------------------------------------
+% Chapter 2. Algorithmcs & Software architecture
+\chapter{Algorithmic and Software architecture}
+\section{Introduction}
+\input{c21_Introduction}
+
+\section{Segmentation Algorithm}
+\input{c22_Segmentation_Algorithm}
+
+\section{Matching Algorithm}
+\input{c23_Matching_Algorithm}
+
+\section{Extended Kalman Filter}
+\input{c24_Extended_Kalman_Filter}
+
+\newpage
+\section{Communication}
+\input{c25_Communication}
+
+\section{Architecture} \label{sec:SoftArch}
+\input{c26_Architecture}
+
+
+%----------------------------------------------------------
+% Chapter 3. Simulation on VREP 
+\chapter{Simulation on VREP}
+\section{Introduction}
+\input{c31_Introduction}
+
+\section{Implementation in VREP program}
+\input{c32_ImplementationVREP}
+
+%----------------------------------------------------------
+% Chapter 5. Real tests
+\chapter{Offline Tests}
+\section{Software implementation}
+\input{c42_Software_implementation}
+
+\section{Results}
+\input{c43_results}
+
+
+%----------------------------------------------------------
+% Chapter 6. Conclusions
+\chapter{Conclusions} \label{chap:c6_conclusions}
+\input{c51_analyzing_results}
+
+%----------------------------------------------------------
+\begin{appendix}
+\chapter{BOViL} \label{chap:c6_bovil}
+\input{c61_appendix_bovil}
+
+\chapter{Network in practice} \label{chap:c6_network}
+\input{c67_appendix_network}
+\end{appendix}
+
+%----------------------------------------------------------
+\listoffigures{}
+
+%----------------------------------------------------------
+% Bibliography
+\begin{thebibliography}{9}
+% \bibitem{} \textit{} 
+
+\bibitem{Image_processing_UAV} Ryan Carnie, Rodney Walker and Peter Corke \textit{Image Processing Algorithms for UAV “Sense and Avoid”} 
+
+\bibitem{traffic_surveillance_pergamon} Benjamin Coifmana, David Beymerb, Philip McLauchlanb and Jitendra Malikb\textit{A real-time computer vision system for vehicle tracking and trac surveillance} 
+
+\bibitem{distributed_surveillance} M. Valera and S.A. Velastin \textit{Intelligent distributed surveillance systems} 
+
+\bibitem{vehicle_detection} D.Neelima and Gowtham Mamidisetti \textit{Computer Vision Model for Vehicle Detection in Traffic Surveillance} 
+
+\bibitem{Kinect_intro} Jungong Han, Ling Shao, Dong Xu and Jamie Shotton \textit{Enhanced Computer Vision with Microsoft Kinect Sensor: A Review.} 
+
+\bibitem{Coop_Surv_aerial_JJ} Jose Joaquin Acevedo, Bego\~na Arrue, Ivan Maza and Anibal Ollero \textit{Cooperative large area surveillance with a team of aerial mobile robots for long endurance missions}
+
+
+\bibitem{Consensus_reaching_Xiao} Xiaojun Geng. \textit{ Consensus-reaching of multiple robots with fewer interactions }. In $Computer Science and Information Engineering$, 2009 WRI World Congress on, volume 5, pages 249 - 253, 31 2009-april 2 2009.
+
+\bibitem{Adaptative_tast_Meuth} R.J. Meuth, E.W. Saad, D.C. Wunsch, and J. Vian. \textit{Adaptive task allocation for search area coverage} . In $Technologies for Practical Robot Applications$, 2009.TePRA 2009. IEEE International Conference on, pages 67-74, nov. 2009.
+
+\bibitem{distributed_architecture_Ivan_Maza} Ivan Maza, Fernando Caballero, Jesus Capitan, J.R. Martinez de Dios and Anibal Ollero \textit{A Distributed Architecture for a Robotic Platform with Aerial Sensor Transportation and Self-Deployment Capabilities} Robotics, Vision and Control Group. Universidad de Sevilla.
+
+\bibitem{descentralized_task_UAV} Edison Pignaton de Freitas, Tales Heimfarth, Armando Morado Ferreira, Carlos Eduardo Pereira, Flavio Rech Wagner and Tony Larsson \textit{Decentralized Task Distribution among Cooperative UAVs in Surveillance Systems Applications}
+
+\bibitem{shape_using_shape_context} Serger Belongie, Jitendra Malik, Jan Puzicha \textit{Shape Matching and Object Recognition Using Shape Context} IEEE Transaction on pattern analysis and machine intelligence. April 2002
+
+\bibitem{CAMSHIFT_FAST} David Exner, Erich Bruns, Daniel Kurz, Anselm Grundhofer and Oliver Bimber  \textit{Fast and Robust CAMShift Tracking}
+
+\bibitem{CAMSHIFT_ENVIROMENT} Lae-Kyoung Lee, Su-Yong An, and Se-Young Oh  \textit{ Robust Visual Object Tracking with Extended CAMShift in Complex Environments}
+ 
+\bibitem{Vehicle_recog_markov} Tian-min Deng, Yi-ming Shao, Min Li, and Li Lin \textit{Vehicle Recognition Based on Gabor Wavelets Transform and Hidden Markov Model} American Society of Civil Engineers. 2007
+ 
+\bibitem{realtime_signal_recon_shape_color} Alberto Broggi, Pietro Cerri, Paolo Medici, Pier Paolo Porta and Guido Ghisio  \textit{Real Time Road Signs Recognition} IEEE Intelligent Vehicles Symposium Istanbul, Turkey, June 13-15, 2007
+
+\bibitem{signal_recogn_shape_color} Claw Bahlmann, Ying Zhu, Visvanathan Ramesh, Martin Pellkofert and Thorstea Koehled  \textit{A System for Traffic Sign Detection, Tracking, and 	Recognition Using Color, Shape, and Motion Information}
+
+\bibitem{Robust_RT_tracking_color_face_Darrell} Darrell, T., Gordon, G., Woodﬁll, J., Baker, H., and Harville, M. \textit{Robust real-time people tracking in open environments using integrated stereo, color, and face detection}. 3rd IEEE workshop on visual surveillance, India, 1998, pp. 26–33.
+
+\bibitem{JamesBruce_CMU_SEG} James Bruce, Tucker Balch, Manuela Veloso  \textit{Fast and Inexpensive Color Image Segmentation for Interactive Robots.} . IROS2000. School of Computer Science Carnegie Mellon University
+
+\bibitem{GabrielTerejanu_EKF} Gabriel A. Terejanu \textit{Extended Kalman Filter Tutorial} . IROS2000. Department of Computer Science and Engineering, University at Buffalo
+
+\bibitem{fast_segmentation_Mitra} L. Lucchese and S.K. Mitra \textit{An Algorithm for Fast Segmentation of Color Images}
+
+\bibitem{fuzzy_segmentation} Hoel Le Capitaine and Carl Frélicot \textit{A fast fuzzy c-means algorithm for color image segmentation}
+
+\bibitem{camera_models}  Leow Wee Kheng \textit{Camera Models and Imaging}
+
+\bibitem{GPU_CPU_performance} Shuichi Asano, Tsutomu Maruyama and Yoshiki Yamaguchi \textit{Performance Comparison of FPGA, GPU and CPU in image processing}
+
+\bibitem{GPU_parallel_image_processing} Nan Zhang, Jian-li Wang and Yun-shan Chen  \textit{Image Parallel Processing Based on GPU }
+
+\bibitem{GPU_enabled_parrallel} Barry Trager, Chai Wah Wu, Mikel Stanich, Kartheek Chandu  \textit{GPU-enabled parallel processing for image halftoning applications}
+
+\bibitem{color_shape_object_recogn}  Aristeidis Diplaros, Theo Gevers and Ioannis Patras \textit{Combining Color and Shape Information for Illumination-Viewpoint Invariant Object Recognition}
+
+\bibitem{Fast_object_recogn_shape} Wei Wang, Lili Chen, Dongming Chen, Shile Li and Kolja Kuhnlenz  \textit{Fast Object Recognition and 6D Pose Estimation Using ViewPoint Oriented Color-Shape Histogram}
+
+\bibitem{task_allocation} José Joaquín Acevedo B\'añez  \textit{Cooperation of multiple heterogeneous aerial robots in surveillance missions}
+
+\bibitem{Multirate_sampled_uav}  Camilo Ossa-Gomez and Luis Rodrigues \textit{Multi-Rate Sampled-Data Control of a Fly-by-wireless Autonomous Quadrotor Helicopter}
+
+\bibitem{multi_uav_path_planning} Hui Bai, Shihuang Shao and Hongyu Wang \textit{A VTOL quadrotor platform for Multi-UAV path planning}
+
+\bibitem{Big_data_Ecosystem} Yuri Demchenko, Cees de Laat and Peter Membrey \textit{Defining Architecture Components of the Big Data Ecosystem }
+
+\bibitem{Big_data_mapReduce} Shweta Pandey  and Dr.Vrinda Tokekar \textit{Prominence of MapReduce in BIG DATA Processing}
+
+\bibitem{}   \textit{}
+
+\bibitem{SocketWiki} \textit{Network Socket} \url{http://en.wikipedia.org/wiki/Network_socket}
+
+\bibitem{BOViL} \textit{Bardo's Open Vision Library} \url{https://github.com/Bardo91/BOVIL/wiki}
+
+\bibitem{TCPIP} \textit{TCP/IP Protocol}  \url{http://en.wikipedia.org/wiki/TCP/IP_model}
+
+\bibitem{Cloud_computing} T-Systems Enterprise Services GmbH 2008\textit{White Paper Cloud Computing. T - Systems} 
+
+\bibitem{CATEC} \textit {CATEC's Tesbed} \url{http://www.catec.aero/}
+
+\end{thebibliography}
+
+%----------------------------------------------------------
+% Ending
+\backmatter
+
+\chapter{Afterword}
+
+\end{document}

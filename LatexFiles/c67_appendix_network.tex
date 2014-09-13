@@ -1,0 +1,14 @@
+This section is a brief introduction to networks from its basic structure to the chosen one by us.
+Basically is a telecommunications network that allows computers to exchange data. That permit to coordinate and share resources between to and fro devices in order to cooperate and achieve a common objective. 
+
+Every computer has a number of connections, among wired or wireless channels, to the other devices that exists in the network. Information travel by these channels in form of packets codified under many kinds of protocols. 
+
+Every connection and the form of the packets depend on the mentioned protocols. In this project we consider only two: TCP and UDP protocols.
+
+\begin{itemize}
+	\item TCP is a connection oriented stream over an IP network. It guarantees that all sent packets will reach the destination in the correct order. This imply the use of acknowledgment packets sent back to the sender, and automatic retransmission, causing additional delays and a general less efficient transmission than UDP.
+
+	\item UDP a is connection-less protocol. Communication is datagram oriented. The integrity is guaranteed only on the single datagram. Datagrams reach destination and can arrive out of order or don't arrive at all. It is more efficient than TCP because it uses non ACK. It's generally used for real time communication, where a little percentage of packet loss rate is preferable to the overhead of a TCP connection.
+\end{itemize}
+
+

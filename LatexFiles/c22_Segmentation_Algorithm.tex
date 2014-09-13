@@ -1,31 +1,31 @@
 %----------------------------------------------------------
-\subsection{Color Space}
-As described previously, in order to extract objects from the scene, the algorithm simplifies the color of every frame in several clusters of colors. To do that, thresholds on color channels were applied. But Firstly the used color space must be defined. \\
-RGB is the most common color space, it's composed by three channels (One per color Red, Green and Blue). The main trouble using RGB frames is that objects color can change drastically, and threshold are worst limited (Color depend on three variable so limits between them are not flat surface but curved surface).
-Instead of using RGB, in this project, HSV color space are chosen. HSV (Hue, Saturation and Value) has all the color information arrange in only one variable: H or Hue channel. That issue, simplifies the algorithm by making the color separation surfaces flats.  \\
+\subsection{Espacio de Colores}
+Para extraer los objetos de la escena, el algoritmo simplifica los colores de cada imagen y agrupa los p\'ixeles en cl\'usteres de colores. \\
+
+RGB es el espacio de colores mas com\'un, este est\'a compuesto de tres canales (Rojo, verde y azul).Sin embargo, el principal problema de este espacio de colores es que la información sobre la "pigmentaci\'on" se encuentra en los tres canales.\\
+
+Para solventar ese problema, se usa en este proyecto el espacio de colores HSV (Hue, Saturation and Value). En este, la información sobre el color se encuentra en un único canal, por lo que es menos sensible a los cambios y las limitaciones entre un color y otro son planos en vez de superficies. \\
 
 % HSV vs RGB figure
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.75\textwidth,natwidth=944,natheight=400]{../Images/c2/HSV_vs_RGB.png}
-	\caption{HSV and RGB spaces of color}
+	\caption{Espacios de colores HSV y RGB}
 	\label{fig:HSV_vs_RGB}
 \end{figure}
 
 %----------------------------------------------------------
-\subsection{Pixel Transformation}
-Pixel Transformation method refers to the process which takes every single pixel of the image and transform it to a simplified color. That's made by applying a threshold the value of H, S and V channels. \\
+\subsection{Transformaci\'on de pixeles}
+En este apartado se describe c\'omo es transformado cada p\'ixel para pasar del color inicial a uno de los colores de los cl\'usteres. Esto se lleva a cabo aplicando una serie de límites a los canales del espacio de colores \\
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.5\textwidth,natwidth=659,natheight=659]{../Images/c2/DividingSubSpace.png}
-	\caption{Division of subspace}
+	\caption{Divisi\'on del espacio de color HSV}
 	\label{fig:DividingSubSpace}
 \end{figure}
 
-The common way to apply that threshold if by calling $if...else...$ sentences. But that way is not very efficient because it has got 6 comparison at runtime. Instead, the implementation used on this document, based on CMU algorithm \cite{JamesBruce_CMU_SEG}, consist on boolean thresholds defined at compile-time. This fact reduce considerably the runtime execution. 
-
-Every color space dimension is simplified in $n_i$ clusters ($i = H, S and V$). This decomposition is stored in arrays where every element is a boolean that indicate if the color is in that range. Thus color membership can be computed with three indirection and two bitwise comparison (Between the 3 channels). 
+Una de las claves para la disminución del tiempo de computaci\'on del algoritmo es la sustitución de las condiciones $if...else...$ por in-direccionamientos de memoria y comparaciones $bitwise$. Estas son mucho m\'as r\'apidas y eficientes \cite{JamesBruce_CMU_SEG}. \\
 
 \begin{equation}
 \begin{split}
@@ -36,7 +36,7 @@ V\_Range[v]
 \end{equation}
 	
 
-To illustrate the approach, consider the following example. We divide every channel in ten blocks $(n_H = 10, n_S = 10$ and $n_V = 10)$. So black, for example, might be  represented with the following values in the arrays.
+Para mostrar el proceso, consideramos el siguiente ejemplo. Si dividimos cada canal del espacio en diez bloques $(n_H = 10, n_S = 10$ y $n_V = 10)$ podemos definir de la siguiente forma (Indicando 1 cuando el negro pertenece a ese rango y 0 si no pertenece a ese rango)
 
 {\centering
 \[HRange[10] = \{1, 1, 1, 1, 1, 1, 1, 1, 1, 1\}\]
@@ -44,11 +44,12 @@ To illustrate the approach, consider the following example. We divide every chan
 \[VRange[10] = \{1, 1, 1, 0, 0, 0, 0, 0, 0, 0\}\]
 } 
 
-Thus, to check if a pixel with color values $(3, 5, 1)$ is a kind of black, it's only necessary to evaluate this expression: 
+Para comprobar si el siguiente color de p\'ixel:  $(3, 5, 1)$, pertenece al negro solo hay que evaluar la siguiente expresi\'on:
 
 \[ pixel\_col = HRange[3] \& SRange[5] \& VRange[1] = 1 \& 1 \& 1 = 1 \]
 
-The significant advantage of this approach is that it can evaluate the color membership of multiples color classes simultaneously. Another color example could be blue. In this case the arrays would be:
+
+El siguiente punto importante es que esto permite evaluar la pertenencia a muchas clases de colores de forma simultánea. Si definimos por ejemplo el azul como lo siguiente:
 
 {\centering
 \[HRange[10] = \{0, 0, 0, 0, 1, 1, 1, 0, 0, 0\}\]
@@ -56,7 +57,7 @@ The significant advantage of this approach is that it can evaluate the color mem
 \[VRange[10] = \{0, 0, 0, 1, 1, 1, 1, 1, 1, 1\}\]
 }
 
-Thanks to the parallelism of the bitwise operator, it possible to merge both arrays. So the example with black and blue will have the following array:
+Podremos agrupar ambos tipos así:
 
 {\centering
 \[HRange[10] = \{01, 01, 01, 01, 11, 11, 11, 01, 01, 01\}\]
@@ -64,28 +65,28 @@ Thanks to the parallelism of the bitwise operator, it possible to merge both arr
 \[VRange[10] = \{01, 01, 01, 10, 10, 10, 10, 10, 10, 10\}\] 
 } 
 
-Where the high-order bit in each element  of the array represent the $blue$ color and the other one represent the $black$ color. Then, evaluating the previous color $(3,5,1)$ we get: 
+Gracias a que la operaci\'on bitwise se realiza bit a bit, el color $(3,5,1)$ se puede evaluar como: 
 
 \[pixel\_col = HRange[3] \& SRange[5] \& VRange[1] = 01 \& 11 \& 01 = 01\]
 
-which result is black again.
+Resultando que pertenece al color negro.
 
-In our implementation we use arrays of bytes of size 36. That allows us to segment every image in 8 different colors with a precision in every channel of $1/36$ defined by the user in code. In conclusion, this method has a high-speed performance but is not adaptable at runtime. \\
+En particular, en el algoritmo usamos arrays de bytes de tamaño 36, lo que significa que diferenciamos 8 colores con una resoluci\'on de $1/36$. \\
 
-Here is the result of applying the algorithm to the well-know picture \textit{Head Scene} of the university of Tsukuba \ref{fig:head_scene_tsukuba_ori} \ref{fig:head_scene_tsukuba_seg}. \\
+Las siguientes imágenes muestran el resultado del algoritmo con la conocida imagen \textit{Head Scene}  de la universidad de Tsukuba \ref{fig:head_scene_tsukuba_ori} \ref{fig:head_scene_tsukuba_seg}. \\
 
 
 \begin{figure}[hbp]
 	\centering
 	\includegraphics[width=0.4\linewidth]{../Images/c2/head_scene_tsukuba_ori}
-	\caption{Original image of the Head Scene}
+	\caption{Imagen original de $Head Scene$}
 	\label{fig:head_scene_tsukuba_ori}
 \end{figure}
 
 \begin{figure}[htp]
 	\centering
 	\includegraphics[width=0.4\linewidth]{../Images/c2/head_scene_tsukuba_seg}
-	\caption{Segmented image of the Head Scene}
+	\caption{Imagen segmentada de $Head Scene$}
 	\label{fig:head_scene_tsukuba_seg}
 \end{figure}
 
@@ -114,24 +115,24 @@ Here is the result of applying the algorithm to the well-know picture \textit{He
 
 %----------------------------------------------------------
 \subsection{Run-length encoding}
-Run-length encoding or RLE is a simple form of data compression in which every groups or "runs" of data is compressed by and amount of pairs of data value and count. For example, having the following "runs": \\
+La compresi\'on RLE o $Run-length encoding$ es un m\'etodo simple de compresión de datos donde cada tira de datos del mismo tipo es comprimida por una pareja de $valor$ y $cantidad$. Por ejemplo, la siguiente $tira$: \\
 
 \textit{WWWWWWWBBBBBBBBBCCCCCCWWWWWWWWWWWWWWWW} \\
 
-The RLE algorithm will compress it to: \\
+Codificada seria la siguiente: \\
 \textit{W7B9C6W16}
 
-In this document, RLE is used to reduce image sizes allowing the segmentation algorithm to gather groups of colors and to go over the objects detected in the scene in a simple and fast iteration. \\
+En este documento RLE se usa para reducir el tama\~no de la imagen, permitiendo iterar r\'apidamente en cada iteraci\'n. \\
 
-This kind of data compress is very useful and effective if the color in the picture is homogeneous. However, if not it could be contra-productive since can make the size of the "runs" grow. Here is an example of both cases: \\
+Este tipo de compresión es muy útil en las imágenes que tienen colores homogéneos, sin embargo puede aumentar el tama\~no de la misma si los p\'ixeles tienen demasiado ruido: \\
 
 \begin{enumerate}
-	\item Homogeneous runs: \textit{WWWWWWWWWWWWWWWWWWWW $\Rightarrow$ W20} \\
-	\item Heterogeneous runs: \textit{WAWAWAWAWA $\Rightarrow$ W1A1W1A1W1A1W1A1} \\
+	\item Homog\'eneo: \textit{WWWWWWWWWWWWWWWWWWWW $\Rightarrow$ W20} \\
+	\item Heterog\'eneo: \textit{WAWAWAWAWA $\Rightarrow$ W1A1W1A1W1A1W1A1} \\
 \end{enumerate}
 
 %----------------------------------------------------------
-\subsection{Object creation}
+\subsection{Agrupaci\'on de p\'ixeles. Creaci\'on del objeto}
 
 Once every row of the picture is encoded with RLE it's necessary to connect the regions to extract information about the objects \ref{fig:RLE1}. This is made in two phases. The first one seek per line the adjacent runs with the same color and connect them \ref{fig:RLE2}. Once every line was explored \ref{fig:RLE3}, the second phase look for objects that are splitted due to the first clustering \ref{fig:RLE4}. During the last phase every info is stored in an $"object class"$ that store the size (in pixels), the bouncing box and its centroid.
 

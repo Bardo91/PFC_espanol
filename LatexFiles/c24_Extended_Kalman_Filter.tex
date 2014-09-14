@@ -1,7 +1,7 @@
 %----------------------------------------------------------
-\subsection{System Model} \label{subsec:system_model}
+\subsection{Modelo del sistema} \label{subsec:system_model}
 
-The system consist on a quadrotor with a camera attached and a target that could be on the ground if there is only one vigilant, or "flying" if there's at least two cameras. The coordinates of the point can be described through the camera position thanks to the following equation (Figure: \ref{fig:Pinhole_Model}).
+El sistema consiste en un quadrotor portando una c\'amara (Figure: \ref{fig:Pinhole_Model}). Las coordenadas de los puntos del espacio respecto a los ejes del la c\'amara son:
 
 \begin{equation}
 \left. \overrightarrow{P_{obj}} = \overrightarrow{C} + \bar{\bar{R}}^{T}*\overrightarrow{P_{c}} \right|_c
@@ -39,12 +39,12 @@ P_{obj} =
 
 %----------------------------------------------------------
 \subsection{Camera Model}
-	The model of the camera \cite{camera_models} and its equations had been described in section \ref{fig:Pinhole_Model}. Matching Algorithm.
+	El modelo de la c\'amara \cite{camera_models}  y sus ecuaciones fueron descritas en la secci\'on del algoritmo de matching \ref{fig:Pinhole_Model}.
 	
 %----------------------------------------------------------
 \subsection{Extended Kalman Filter}
 
-The Kalman Filter is an iterative algorithm that obtain an estimation of a lineal dynamic system when sensors has white noise. In this case, the system is non-linear so it's used a variant called Extended Kalman Filter \cite{GabrielTerejanu_EKF} (or EKF). To apply the algorithm it's necessary to use a linealization of the known system described previously. That means that to apply this EKF we consider only the cinematic (velocities of the objects to update their position).
+El filtro de calman es un algoritmo iterativo de estimaci\'on de estados de sistemas din\'amicos. Este suele ser aplicado cuando se necesita saber el estado de un sistema con m\'as mediciones que grados de libertad del sistema y para la atenuaci\'on de ruido blanco en las estimaciones. En este caso usamos una aproximaci\'on lineal del sistema con una variante llamada Filtro de Kalman Extendido \cite{GabrielTerejanu_EKF} (o EKF). Por lo que en primer lugar es necesario linealizar el sistema.
 
 \begin{equation}
 P_{obj} = 
@@ -76,15 +76,16 @@ P_{obj} =
 	\end{pmatrix}
 \end{equation}
 
-Consider the following nonlinear system described by the difference equation and the observation model with additive noise: \\
+Considerando las siguientes ecuaciones de estado y ecuaciones de observador del sistema con ruido añadido: \\
 
 \begin{gather}
 x_k = f(x_{k-1}) + w_{k-1} \\
 z_k = h(x_k) + v_k
 \end{gather}
 
-Been $x_k$ the state of the system, $z_k$ the observation state, and $f(·) \& h(·)$ the functions of both systems with their noise $ w_k ; v_k$. \\
-Every step of the EKF consist on two substeps called "Predictor" and "Corrector":
+Siendo $x_k$ el estado del sistema, $z_k$ el estado observador, y $f(·) \& h(·)$ las ecuaciones dl sistema con sus ruidos: $ w_k ; v_k$. \\
+
+Cada paso del EKF esta formado de dos iteraciones llamadas "Predictor" y "corrector"
 
 \begin{itemize}
    \item Predictor Step
@@ -93,7 +94,7 @@ Every step of the EKF consist on two substeps called "Predictor" and "Corrector"
 			P_k^{f} = J_f(x_{k-1}^{a}) P_{k-1} J_f^{T}(x_{k-1}^{a}) + Q_{k-1}
 		\end{gather}
 
-	\item CorrectorStep
+	\item Corrector Step
 		\begin{gather}
 			P_k = (I - K_k J_h(x_k^{f}))P_k^{f} \\
 			K_k = P_k^{f} J^{T}_h(x_k^{f}) (J_h(x_k^{f}) P_k^{f} J_h^{T}(x_k ^{f}) + R_k)^{-1} \\
@@ -101,7 +102,7 @@ Every step of the EKF consist on two substeps called "Predictor" and "Corrector"
 		\end{gather}
 \end{itemize}
 
-In the previous ecuations, $J_h$ and $J_f$ are the Jacobian matrix of the system and observator. They are can be computed basing on the system and camera model as: \\
+En estas ecuaciones, $J_h$ y $J_f$ son las matrices jacobianas del sistema y del observador. Estas pueden ser calculadas con las ecuaciones del sistema y del modelo de la c\'amara: \\
 
 \[J_h =  
 	\begin{pmatrix}
@@ -111,7 +112,7 @@ In the previous ecuations, $J_h$ and $J_f$ are the Jacobian matrix of the system
 	\end{pmatrix}
 \]
 
-And so on with the $ f(·)$ function for the $J_f$ jacobian. Following paragraphs decribes the procedure of acquisition of both jacobians for this specific situation. \\
+E igualmente con $ J_f$. Las siguientes ecuaciones muestran el proceso de adquisici\'on de los jacobianos. \\
 
 \begin{equation} \label{eq:observation_equation}
 z_k =
@@ -126,7 +127,7 @@ z_k =
 	\end{pmatrix}
 \end{equation}
 
-Getting \ref{eq:system_equation} and isolating the position vector of the target in the camera's base, then is possible to express the observation state in term of real system state.
+Tomando \ref{eq:system_equation} y aislando el vector de posicion del objetivo en el sistema de coordenadas de la c\'amara: \\
 
 \begin{equation}
 \ref{eq:system_equation} \Rightarrow 
@@ -149,7 +150,7 @@ Getting \ref{eq:system_equation} and isolating the position vector of the target
 	\end{pmatrix}
 \end{equation}
 
-So, individually:
+Individualmente cada coordenada:
 
 \begin{equation}
 \left\{ 
@@ -160,7 +161,7 @@ So, individually:
 	\end{aligned} \right.
 \end{equation}
 
-Introducing this in equation \ref{eq:observation_equation}.
+Introduciendo dicho resultado en las ecuaciones \ref{eq:observation_equation}: \\
 
 \begin{equation}
 z_k =
@@ -170,11 +171,11 @@ z_k =
 	\end{pmatrix}
 \end{equation}
 
-This observation equation only includes information about one camera, since now, this section splits in two. The first one dedicated to stereo tracking with a pair of non-parallel cameras. And the second one, using only one camera but in order to reduce the number of variables (Unless the EKF will became unstable with this equations, in chapter \ref{chap:c6_conclusions} there is a dissertation about this topic). \\
+Esta ecuacion del sistema observador solo incluye la información de una c\'amara. Los siguientes apartados describen por separado el caso de seguimiento de un objeto terrestre donde solo se necesita una c\'amara y el caso de objetos con trayectorias tridimensionales, en cuyo caso s enecesitan dos c\'amaras. \\
 
 %%% ------------------------------------------------------------------------------------------------
-\subsubsection{Tracking of ground objects}
-At this point, we suppose that in world coordinates the $z$ dimension of the target is constant, so the system state will be $x_k = (x, y, v_x, v_y)$. For this reason, $\partial z$ and $\partial v_z$ has no sense. Based on a lineal behavior in the system \ref{subsec:system_model} and on the observation equations \ref{eq:observation_equation}, the following matrix are the ones that define the EKF.
+\subsubsection{Seguimiento de objetos terrestres}
+Suponemos pues que la dimensi\'on $z$ del objetivo es constante. En este caso, el estado del sistema se puede describir como $x_k = (x, y, v_x, v_y)$. Bas\'andonos en las ecuaciones del sistema \ref{subsec:system_model}y del observador \ref{eq:observation_equation}, obtenemos los siguientes jacobianos.
 
 \begin{equation}
 J_f = 
@@ -194,10 +195,10 @@ J_h =
 	\end{pmatrix}
 \end{equation}
 
-Such that, $(x_c, y_c, z_c)$ are related to camera position ob the object, $r_ij$ means the $(i,j)$ element of the rotation matrix of the camera.\\ 
+Tal que $(x_c, y_c, z_c)$ son las posiciones del objeto relativas a la c\'amara y los $r_ij$ son los elementos $(i,j)$ de la matriz de rotaci\'on de la c\'amara.\\ 
 
 %%% ------------------------------------------------------------------------------------------------
-\subsubsection{Stereo Tracking}
+\subsubsection{Seguimiento Est\'ereo}
 At this point, unlike previous section the target can move in three coordinates, so the system state will be $x_k = (x, y, z, v_x, v_y, v_z)$. Based on a lineal behavior in the system \ref{subsec:system_model} and on the observation equations \ref{eq:observation_equation}, the following matrix are the ones that define the EKF.
 
 \begin{equation}

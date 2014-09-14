@@ -199,7 +199,7 @@ Tal que $(x_c, y_c, z_c)$ son las posiciones del objeto relativas a la c\'amara 
 
 %%% ------------------------------------------------------------------------------------------------
 \subsubsection{Seguimiento Est\'ereo}
-At this point, unlike previous section the target can move in three coordinates, so the system state will be $x_k = (x, y, z, v_x, v_y, v_z)$. Based on a lineal behavior in the system \ref{subsec:system_model} and on the observation equations \ref{eq:observation_equation}, the following matrix are the ones that define the EKF.
+En esta caso el estado del sistema es $x_k = (x, y, z, v_x, v_y, v_z)$. Bas\'andonos en las ecuaciones del sistema \ref{subsec:system_model}y del observador \ref{eq:observation_equation}, obtenemos los siguientes jacobianos.
 
 \begin{equation}
 J_f = 
@@ -225,4 +225,4 @@ J_h =
 	\end{pmatrix}
 \end{equation}
 
-And as above, $(x_c, y_c, z_c)$ are related to camera position of the object, $r_ij$ means the $(i,j)$ element of the rotation matrix of the camera and $c_i$ superindex means related to camera i.
+Siendo $(x_c, y_c, z_c)$ las coordenadas del objetos relativas a la posición de la cámara, $r_ij$ los elementos $(i,j)$ de la matriz de rotacin\'on de la cámara y $c_i$ relativo a la c\'amara i.

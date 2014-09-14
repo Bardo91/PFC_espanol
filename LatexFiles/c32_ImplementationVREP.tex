@@ -1,8 +1,8 @@
 %-------------------------------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------------------------------
-\subsection{Structure of section}
-Every section of this chapter is a simulation of the future application. Every simulation is has his own scene (Showed in this document with some images, for example as in Figure: \ref{fig:VREP_scene_example}). This scenes contains the requited quadrotors and targets in order to test the behavior previous real results. Results of vision algorithm is showed in the vrep console(Figure: \ref{fig:Ground_Tracking_VREP_Console}). \\
+\subsection{Introducci\'on a la secci\'on}
+Cada apartado es una simulaci\'on de la futura aplicaci\'on del algoritmo. Cada una consta de una escena propia mostrada como en la figura \ref{fig:VREP_scene_example}. El resultado se visualiza por consola en el formato que muestra la figura \ref{fig:Ground_Tracking_VREP_Console}. \\
 
 \begin{figure}[ht]
 	\centering
@@ -18,7 +18,7 @@ Every section of this chapter is a simulation of the future application. Every s
 	\label{fig:Ground_Tracking_VREP_Console}
 \end{figure}
 
-There is another component in the simulations, the ground station, with the aim to make the most realistic simulations, this ground station is exactly the same as real test ground station. This is possible due to the abstraction of the communication through sockets. The ground station has a simple interface to get some information about the progress. An example of this interface is shown in the Figure: \ref{fig:Ground_Tracking_Server_Console}.
+La estación en tierra se simula con una aplicaci\'on en el mismo ordenador que ejecuta la simualaci\'on tal que los resultados se muestran tambi\'en por consola del siguiente modo: \ref{fig:Ground_Tracking_Server_Console}.
 
 \begin{figure}[ht]
 	\centering
@@ -27,14 +27,14 @@ There is another component in the simulations, the ground station, with the aim 
 	\label{fig:Ground_Tracking_Server_Console}
 \end{figure}
 
-Both ground station and objects in the simulation generate a LOG in order to analyze afterwards the results.
+Ambos procesos (Quadrotor y estaci\'on de tierra) generan unos ficheros de LOG que se usar\'an para analizar los resultados.
 
 %-------------------------------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------------------------------
-\subsection{Simulation 1 - Simple ground camera tracking. Vertical camera}
-\subsubsection{Set up}
-This Scene has basically one quad rotor and one target (Figure: \ref{fig:VREP_scene_example}). The Red sphere is moving on the floor (Describing a circle) while the quad's camera captures pictures and the on board (simulated) computer process it and command the drone in order to follow the target. In this simulation the camera is facing the ground (Figure: \ref{fig:ground_tracking_scene_vertical}).
+\subsection{Simulaci\'on 1 - Seguimiento de objeto de tierra con c\'amara vertical}
+\subsubsection{Preparaci\'on}
+La escena consta de un dron y un objetivo (Figure: \ref{fig:VREP_scene_example}). La c\'amara apunta hacia el suelo y el quadrotor sigue al objetivo con los datos extraídos del algoritmo de visi\'on (Figure: \ref{fig:ground_tracking_scene_vertical}).
 
 \begin{figure}[ht]
 	\centering
@@ -43,23 +43,23 @@ This Scene has basically one quad rotor and one target (Figure: \ref{fig:VREP_sc
 	\label{fig:ground_tracking_scene_vertical}
 \end{figure}
 
-\subsubsection{Test and results}
+\subsubsection{Test y resultados}
 
-	In this test the maximum error (That is about 1 cm) is at the beginning of the simulation Due to the initial state of the EKF. Lately the this error is reduced to $\sim$ 0. The fist figure (\ref{fig:sim1_traj_ori} and \ref{fig:sim1_traj_track}) that contains 2 pictures, shows X and Y coordinate of the a) real trajectory and b) the results of EKF algorithm. The last figure of this simulation shows the 3D path that was described by the target (Blue line) and the tracked trajectory (Red line); Figure \ref{fig:sim1_traj_both_3d}.
+	En este test el error m\'aximo es de 1 cm al inicio del algoritmo, posteriormente es $\sim$ 0. La primera figura muestra las coordenadas reales y calculadas del objetivo (\ref{fig:sim1_traj_ori} and \ref{fig:sim1_traj_track}) y la segunda figura la trayectoria en tres dimensiones \ref{fig:sim1_traj_both_3d}.
 	
 \begin{figure}[htp]
 	\centering
 	\begin{subfigure}{0.45\linewidth}
 		\centering
 		\includegraphics[width=\linewidth]{../Images/c3/sim1_traj_ori}
-		\caption{Ground tracking - Original trajectory}
+		\caption{Seguimiento terrestre - Trayectoria Original}
 		\label{fig:sim1_traj_ori}
 	\end{subfigure}
 	~
 	\begin{subfigure}{0.45\linewidth}
 		\centering
 		\includegraphics[width=\linewidth]{../Images/c3/sim1_traj_track}
-		\caption{Ground tracking - Tracked trajectory}
+		\caption{Seguimiento terrestre - Trayectoria calculada}
 		\label{fig:sim1_traj_track}
 	\end{subfigure}
 
@@ -69,7 +69,7 @@ This Scene has basically one quad rotor and one target (Figure: \ref{fig:VREP_sc
 \begin{figure}[ht]
 \centering
 \includegraphics[width=0.7\linewidth]{../Images/c3/sim1_traj_both_3d}
-\caption{Ground tracking - Oblique Camera - 3D trajectory}
+\caption{Seguimiento terrestre - Trayectoria tridimensional}
 \label{fig:sim1_traj_both_3d}
 \end{figure}
 
@@ -79,34 +79,34 @@ This Scene has basically one quad rotor and one target (Figure: \ref{fig:VREP_sc
 %-------------------------------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------------------------------
-\subsection{Simulation 2 - Simple ground camera tracking. Oblique camera}
-\subsubsection{Set up}
-This Scene has basically one quad rotor and one target. The Red sphere is moving on the floor (Describing a curve) while the quad's camera captures pictures and the on board (simulated) computer process it and command the drone in order to follow the target. In this case, the camera is not facing directly the ground, now it's oblique (45 degrees from the previous; Figure: \ref{fig:ground_tracking_scene_oblique}). At this experiment, the speed of the target was increased.
+\subsection{Simulaci\'on 2 - Seguimiento terrestre con c\'amara oblicua}
+\subsubsection{Preparaci\'on}
+Esta escena es pr\'acticamente la anterior, salvo que la c\'amara ya no se encuentra vertical sino oblicua (A 45 grados respecto al eje vertical) \ref{fig:ground_tracking_scene_oblique}). Para esta prueba adem\'as se aument\'o la velocidad del objetivo:
 
 \begin{figure}[hp]
 	\centering
 	\includegraphics[width=0.65\linewidth]{../Images/c3/ground_tracking_scene_oblique}
-	\caption{Ground tracking - Oblique Camera}
+	\caption{Seguimiento terrestre - C\'amara oblicua}
 	\label{fig:ground_tracking_scene_oblique}
 \end{figure}
 
-\subsubsection{Test and results}
+\subsubsection{Test y resultados}
 \label{lab:sim2_test_results}
-In this test the maximum error, apart from the beginning that is large initially due to the initial state of EKF until it's established, is $\sim$ 2 cm due to the speediness of the target at the curve. Lately the this error is reduced to $\sim$ 0. The fist figure (\ref{fig:sim2_traj_ori} and \ref{fig:sim2_traj_track}) that contains 2 pictures, shows X and Y coordinate of the a) real trajectory and b) the results of EKF algorithm. The last figure of this simulation shows the 3D path that was described by the target (Blue line) and the tracked trajectory (Red line); Figure \ref{fig:sim2_traj_both_3d}.
+El error inicial m\'aximo es de $\sim$ 2 cm debido a la velocidad inicial del objetivo respecto a la din\'amica del quadrotor. En adelante el error es $\sim$ 0. La primera figura muestra las trayectorias original y calculadas (\ref{fig:sim2_traj_ori} y \ref{fig:sim2_traj_track}), y finalmente se muestra la reconstrucci\'on 3D de la trayectoria. \ref{fig:sim2_traj_both_3d}.
 
 \begin{figure}[htp]
 	\centering
 	\begin{subfigure}[htp]{0.48\linewidth}
 		\centering
 		\includegraphics[width=\linewidth]{../Images/c3/sim2_traj_ori}
-		\caption{Ground tracking - Original trajectory}
+		\caption{Seguimiento terrestre - Trayectoria original}
 		\label{fig:sim2_traj_ori}
 	\end{subfigure}
 	~
 	\begin{subfigure}[htp]{0.48\linewidth}
 		\centering
 		\includegraphics[width=\linewidth]{../Images/c3/sim2_traj_track}
-		\caption{Ground tracking - Tracked trajectory}
+		\caption{Seguimiento terrestre - Trayectoria calculada}
 		\label{fig:sim2_traj_track}
 	\end{subfigure}
 
@@ -116,7 +116,7 @@ In this test the maximum error, apart from the beginning that is large initially
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.9\linewidth]{../Images/c3/sim2_traj_both_3d}
-\caption{Ground tracking - Oblique Camera - 3D trajectory}
+\caption{Seguimiento terrestre - Trayectoria tridimensional}
 \label{fig:sim2_traj_both_3d}
 \end{figure}
 
@@ -126,15 +126,14 @@ In this test the maximum error, apart from the beginning that is large initially
 %-------------------------------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------------------------------
-\subsection{Simulation 3 - Stereo tracking}
-\subsubsection{Set up}
-This simulation is the first one with two quadcopters. The Red sphere is moving on the floor (Describing a curve) while both quad's cameras capture pictures and the on board computers (that are simulated) process them and self-command quads in order to follow the target. The cameras are also oblique (45 degrees from the previous; Figure: \ref{fig:sim3_set_up}). The speediness is the same one that in simulation 2.
-
+\subsection{Simulaci\'on 3 - Seguimiento Est\'ereo}
+\subsubsection{Preparaci\'on}
+Esta simulaci\'on dos quadrotors y un objetivo como se ve en la figura \ref{fig:sim3_set_up}.
 
 \begin{figure}[htp]
 	\centering
-	\includegraphics[width=0.65\linewidth]{../Images/c3/sim3_set_up}
-	\caption{Stereo tracking - Set up}
+	\includegraphics[width=0.4\linewidth]{../Images/c3/sim3_set_up}
+	\caption{Seguimiento Est\'ereo}
 	\label{fig:sim3_set_up}
 \end{figure}
 
@@ -158,29 +157,29 @@ This simulation is the first one with two quadcopters. The Red sphere is moving 
 
 \subsubsection{Test and results}
 
-	In this simulation the results converge fastly from the initial state to the target's position. Here the max error is $\sim$ 3 cm. and medium error is $\sim$ 1 cm. Max error is found at the beginning of the second curve. That is because the target increase it's velocity considerably (And the EKF suppose a linear movement). This, together with the dynamic behavior of the quadrotors, make the path-line seems a sawtooth (Figure: \ref{fig:sim3_traj_both_3d}).
+	En esta simulaci\'on el error m\'aximo es $\sim$ 3 cm. y el m\'inimo $\sim$ 1 cm. El error m\'aximo se encuentra al final de la curva debido al aumento de velocidad del objetivo en esa parte \ref{fig:sim3_traj_both_3d}.
 	
 
 \begin{figure}[hp]
 	\centering
-	\begin{subfigure}[hp]{0.48\linewidth}
+	\begin{subfigure}[hp]{0.4\linewidth}
 		\centering
 		\includegraphics[width=\linewidth]{../Images/c3/sim3_traj_ori}
-		\caption{Stereo tracking - Original trajectory}
+		\caption{Seguimiento Est\'ereo - Trayectoria Original}
 		\label{fig:sim3_traj_ori}
 	\end{subfigure}
 	~
-	\begin{subfigure}[hp]{0.48\linewidth}
+	\begin{subfigure}[hp]{0.4\linewidth}
 		\centering
 		\includegraphics[width=\linewidth]{../Images/c3/sim3_traj_track}
-		\caption{Stereo tracking - Tracked trajectory}
+		\caption{Seguimiento Est\'ereo - Trayectoria Calculada}
 		\label{fig:sim3_traj_track}
 	\end{subfigure}
 \end{figure}
 
 \begin{figure}[htp]
 		\centering
-		\includegraphics[width=0.7\linewidth]{../Images/c3/sim3_traj_both_3d}
+		\includegraphics[width=0.4\linewidth]{../Images/c3/sim3_traj_both_3d}
 		\caption{Stereo tracking - 3D trajectory}
 		\label{fig:sim3_traj_both_3d}
 \end{figure}
@@ -188,20 +187,20 @@ This simulation is the first one with two quadcopters. The Red sphere is moving 
 %-------------------------------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------------------------------
-\subsection{Simulation 4 - Ground Tracking, Multiple targets}
-\subsubsection{Set up}
- On this experiment, there is again only one quadrotor(Figure: \ref{fig:sim4_set_up}). Instead, one more target was added (Blue sphere). Both objects describe the curve, keeping their relative distance (Moving as a rigid solid, so the blue is always on the left-side of the path). the watcher's camera is also oblique (45 degrees) and spheres keeps the same speed of the previous simulation.
+\subsection{Simulaci\'n 4 - Seguimiento en tierra de m\'ultiples objetivos}
+\subsubsection{Preparaci\'on}
+ Este experimento consta de un solo quadrotor y dos obetivos \ref{fig:sim4_set_up}.
  
 \begin{figure}[htp]
 	\centering
-	\includegraphics[width=0.6\linewidth]{../Images/c3/sim4_set_up}
-	\caption{Multiple Targets - Set Up}
+	\includegraphics[width=0.4\linewidth]{../Images/c3/sim4_set_up}
+	\caption{Objetivos M\'ultiples objetivos}
 	\label{fig:sim4_set_up}
 \end{figure}
 
-\subsubsection{Test and results}
+\subsubsection{Test y resultados}
 
-	Firstly, figures \ref{fig:sim4_redtarget} and \ref{fig:sim4_bluetarget} shows the X and Y coordinate of the targets (Both real and estimate). Secondly, figure \ref{fig:sim4_3dtraj} shows the 3D path-lines of both red and blue spheres. \\
+	Como en los apartados anteriores se muestran tres figuras correspondientes a las coordenadas XY original y calculada y la trayectoria 3D (\ref{fig:sim4_redtarget}, \ref{fig:sim4_bluetarget} y \ref{fig:sim4_3dtraj}). \\
 	
 	\begin{figure}[hp]
 		\centering
@@ -220,7 +219,7 @@ This simulation is the first one with two quadcopters. The Red sphere is moving 
 		\end{subfigure}
 	\end{figure}
 	
-	The results of red tracking are quite good and similar to the ones explained in "Ground tracking - Oblique camera" \ref{fig:sim2_traj_both_3d}. The tracking of the blue sphere seems to be wrong. However, it is not. This deviation is due to lack of information. The camera didn't capture the whole blue sphere \ref{fig:sim4_centroid_objs}, causing an error between the centroid of the recognized part of the sphere in the image and the real one. That's why the tracked-path is always displaced a few centimeters from the real one. The maximum error is $\sim$ 15 cm and the medium is $\sim$ 6 cm.
+	Los resultados esta simulaci\'on son buenos igual que en los apartados anteriores \ref{fig:sim2_traj_both_3d}. El resultado del seguimiento del objeto azul puede parecer erroneo inicialmente, sin embargo es un resultado totalmente coherente ya que este nunca se ve completamente por lo que nunca se obtiene el centro real del mismo \ref{fig:sim4_centroid_objs} y de ah\'i el error en posici\'on. El error m\'aximo en el azul es $\sim$ 15 cm y el medio es $\sim$ 6 cm.
 
 
 
@@ -229,14 +228,14 @@ This simulation is the first one with two quadcopters. The Red sphere is moving 
 	\begin{subfigure}{0.45\linewidth}
 		\centering
 		\includegraphics[width=\linewidth]{../Images/c3/sim4_3dtraj}
-		\caption{Multiple Targets - 3D trajectory}
+		\caption{M\'ultiples objetivos - Trayectoria 3D}
 		\label{fig:sim4_3dtraj}
 	\end{subfigure}
 	~
 	\begin{subfigure}{0.2\linewidth}
 		\centering
 		\includegraphics[width=\linewidth]{../Images/c3/sims_two_object_centroid_out}
-		\caption{Multiple Targets - Objects centroids on Image}
+		\caption{M\'ultiples objetivos - Centroides}
 		\label{fig:sim4_centroid_objs}
 	\end{subfigure}
 \end{figure}

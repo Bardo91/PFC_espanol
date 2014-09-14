@@ -1,7 +1,4 @@
 \subsection{Introduction}
-	This section is divided in two parts, the first one describe the implementation of the algorithm in a laptop computer. The objective is to get a reference to compare the results of the final implementation. The second one is a description of the final application and its results.
-	During this experiments, five datasets were used. These datasets were provided by the GRVC, captured in the testbed of CATEC \cite{CATEC}, and were used previously by a partner. These datasets, composed by a number of images and data provided by a VICON system (Time, position and orientation of quadrotors), and Representing different situations, yielded a number of interesting results that will be gathered at the end of this chapter. 
-
 	\begin{figure}[h]
 		\centering
 		\begin{subfigure}{0.49\linewidth}
@@ -19,21 +16,19 @@
 		\label{fig:frames_PC}
 	\end{figure}
 
-	Figure: \ref{fig:frames_PC} shows an example of captured image from the camera and the result of the segmentation algorithm. Particularly, we were looking for orange color (The cap of the quadrotor in this case). However unlike simulation, where there was only one object as the result of segmentation, the algorithm return many targets. The first sift is by size, we do not consider tiny objects that use to be noise and are quantitative smaller than the target.
-		
-	
-	Following sections shows the results of the described algorithm while running completely on the same computer and afterwards using the definitely structure of the system (Ground Station on PC and the capture and segmentation on the on-board computer) with the provided datasets.
+	La figura: \ref{fig:frames_PC} muestra una imagen del dataset capturada por las c\'amaras de los quadqrotors y el resultado de la segmentaci\'on por color. Sin embargo, a diferencia de las simulaciones en esta hay m\'ultiples objetos pequeños que tienen que ser cribados con un filtro de color y de tama\~no.
 
-\subsection{Complete Test in PC}
-	PC's and other's characteristics:
+\subsection{Test en el PC}
+	Caracter\'isticas del sistema:
 	\begin{itemize}
-		\item{Pictures of 640x480}
-		\item{Intel core i7 2.20 GHz. Usage 7-10\%}
-		\item{6 GB of RAM. Usage $\sim$ 5000-7000 KB}
+		\item{Resoluci\'on de las im\'agenes: 640x480}
+		\item{Intel core i7 2.20 GHz. Uso del procesador 7-10\%}
+		\item{6 GB of RAM. Uso de la memoria $\sim$ 5000-7000 KB}
 	\end{itemize}
-	\subsubsection{Ground Tracking algorithm}
 	
-	All datasets have information about two cameras tracking a target. However, in this experiment, we use only the information about the first  of the camera. The following table shows the medium time and speed of every step of the algorithm: \\
+	\subsubsection{Algoritmo de seguimiento terrestre}
+	
+	Los datasets fueron grabados en est\'ereo. Sin embargo, las primeras pruebas fueron con los objetivos en tierra por lo que usando la informaci\'ion de una sola de las c\'amaras puede probarse el algoritmo. La siguiente tabla muestra unos estad\'isticos del algoritmo: \\
 	
 	{
 	\centering
@@ -48,22 +43,22 @@
 
 	{
 	\label{Reference_fps_table}
-	This application runs sequentially, so the "complete"\footnote{The complete time has a higher value, than the addition of the previous, because it includes some GUI process} time of the process is the addition of the previous ones. Therefore, It is possible to reduce the complete process time using multi-threading (or in other words increase the FPS). In the following section will be described the results of the process with multi-threading inside the on-board computer. \ref{test_with_odroid_and_GT}
+	En este caso se hizo una prueba del algoritmo ejecut\'andose de forma secuencial por lo que puede aumentarse la velocidad del mismo paralelizando los procesos en diferentes threads. En la siguiente secci\'on se mostrar\'an los resultados dentro de los ordenadores de abordo con el algoritmo en paralelo. \ref{test_with_odroid_and_GT}
 	}
 	
-	The next graphs shows the original and estimated position of the target \ref{fig:trajectories_PC} and the error between both \ref{fig:errors_PC}. In general terms, the errors associated with each axis are bounded below 0.2 m.
+	Las siguientes gr\'aficas muestran los resultados de las trayectorias \ref{fig:trajectories_PC} y los errores de estimaci\'on   \ref{fig:errors_PC}. Los errores est\'an acotados superiormente por $0.2 m$.
 	
 	\begin{figure}[hp]
 		\centering
 		\includegraphics[width=0.75\linewidth]{../Images/c4/trajs}
-		\caption{Original and tracked trajectories}
+		\caption{Ejecuci\'on en pc - Trayectorias original y Calculadas.}
 		\label{fig:trajectories_PC}
 	\end{figure}
 	
 	\begin{figure}[hp]
 		\centering
 		\includegraphics[width=0.5\linewidth]{../Images/c4/errors}
-		\caption{Error between real and tracked trajectories}
+		\caption{Ejecuci\'on en pc - Errores}
 		\label{fig:errors_PC}
 	\end{figure}
 	
@@ -76,9 +71,9 @@
 	%	\label{fig:fps_PC}
 	%\end{figure}
 		
-	\subsubsection{Stereo Tracking algorithm}
+	\subsubsection{Algoritmo de seguimiento est\'ereo}
 	
-	On this case, we use the data about both of the cameras. As previously, the following table collect time information about the process of the application. \\
+	En este caso se usa la informaci\on de ambas c\'amaras para la estimaci\'on de posici\'on: \\
 		
 	{                
 	\centering
@@ -91,21 +86,21 @@
 	}
 	\newline
 	
-	This table has the same annotation that the previous one \ref{Reference_fps_table}.
+	Esta tabla tiene la misma notaci\'on que la tabla anterior \ref{Reference_fps_table}.
 	
-	Eventually, these figures shows the position of the target, the result of the estimation \ref{fig:trajectories_stereo_PC} and the error between both \ref{fig:errors_stereo_PC}.
+	Final mente estas im\'agenes muestran las posiciones originales y calculadas del objetivo \ref{fig:trajectories_stereo_PC} y el error entre ellas \ref{fig:errors_stereo_PC}.
 	
 	\begin{figure}[hp]
 		\centering
 		\includegraphics[width=\linewidth]{../Images/c4/trajs_stereo}
-		\caption{Original and tracked trajectories}
+		\caption{Algoritmo de seguimiento est\'ereo - Trayectorias original y calculada}
 		\label{fig:trajectories_stereo_PC}
 	\end{figure}
 	
 	\begin{figure}[htp]
 		\centering
 		\includegraphics[width=0.7\linewidth]{../Images/c4/errors_stereo}
-		\caption{Error between real and tracked trajectories}
+		\caption{Algoritmo de seguimiento est\'ereo - Errores}
 		\label{fig:errors_stereo_PC}
 	\end{figure}	
 	

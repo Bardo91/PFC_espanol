@@ -106,7 +106,7 @@
 	
 	\newpage
 	
-\subsection{Test with Odroid and Ground Station}
+\subsection{Test en el ordenador de abordo}
 	\label{test_with_odroid_and_GT}
 	
 	\begin{wrapfigure}{r}{0.5\linewidth}
@@ -115,10 +115,7 @@
 		\label{fig:odroidu3}
 	\end{wrapfigure}
 		
-	The result of this sections where obtained from two application. The first is the Ground Station application, which were running in the same computer of the previous section. This PC was connected to a local network (Router). The architecture of this app.  was described in figure \ref{fig:GroundStation}
-	
-	The second application were running inside the on-board computer \ref{fig:Quadsoftware} connected by WiFi to the same network. Particularly, the on-board computer is a Hardkernel Odroid-u3 with the following characteristics:
-	
+	Para estos test se us\'o el esquema de software descrito en secciones anteriores para la estaci\'on en tierra \ref{fig:GroundStation} y para el quadrotor \ref{fig:Quadsoftware}, conectados a trav\'es de la red. La siguiente lista muestra las caracter\'isticas generales del ordenador de abordo (Odroid U3 de Hardkernel)
 	
 	\begin{itemize}
 		\item 1.7GHz Quad-Core processor 
@@ -126,14 +123,9 @@
 		\item GPU ARM Mali-400 Quad Core 440MHz  
 	\end{itemize}
 	
-	As described in section \ref{sec:SoftArch}, the quad handles the capture and treatment of pictures and eventually send the information to the Ground Station. After that, the Ground Station process the data and store the information. The only difference is that, instead of capturing the photos, the quad open the images from the data set.
+	\subsubsection{Algoritmo de seguimiento terrestre}
 	
-	
-	\subsubsection{Ground Tracking algorithm}
-	
-	The first test case was (As in previous sections), the tracking of a single ground target. The following table got the timing information of the process. It's important to mention that the application has the four different threads mentioned previously \ref{itemize:quadappthreads}. That means that unlike the previous section, the execution time is not sequential but parallel. So the complete process time is not the summarize of each process's time.
-	
-	Attending to the quadrotor's application, the following table gather some process's duration and it speed:
+	La siguiente tabla muestra los tiempos de ejecuci\'on de cada ciclo de cada hilo del quadrotor:
 	% 666 TODO: quitar el filtro de media del tratamiento que ralentiza mucho
 	\newline
 	\newline
@@ -148,7 +140,7 @@
 	}
 	\newline
 	
-	This second table gather the time information in the Ground Station application:
+	Y esta segunda tabla de la estaci\'on en tierra:
 	\newline
 	
 	{
@@ -162,20 +154,19 @@
 	}
 	\newline
 	
-	The higher computational cost is the image capture and segmentation, by the quadcopter. Due to the lower computational characteristics of the on-board pc the speed of the algorithm is slightly reduced.
-	
-	Finally, the following figure \ref{fig:arch_trajs} shows the original trajectory and the tracked one. Should be noted that the amount of info used by the tracker is lower than the provider by the dataset. That's because the asynchronism, if some new info if get before been processed the application process the last one in order to work with the newest data as possible. The medium error is $\sim$ 0.2m as in the previous tests.
+	El cuello de botella se encuentra de nuevo en la parte de segmentaci\'on ya que es la que requiere m\'as recursos computacionales.
+	Finalmente la siguiente figura muestra las trayectorias original y calculadas \ref{fig:arch_trajs}. Cabe mencionar que la cantidad de informaci\'on usada por el algoritmo es menor que la existente, esto se debe al asincronismo de los hilos del sistema. Tal y como ser\'ia en un sistema real, se desechan im\'agenes si estas pueden ser sustituida por unas m\'as recientes El error medio es $\sim$ 0.2m.
 	
 	\begin{figure}[ph]
 		\centering
-		\includegraphics[width=0.7\linewidth]{../Images/c4/arch_trajs}
-		\caption{Original and tracked trajectories}
+		\includegraphics[width=0.5\linewidth]{../Images/c4/arch_trajs}
+		\caption{Ejecuci\'on en Odroid - Trayectorias}
 		\label{fig:arch_trajs}
 	\end{figure}
 
 	
-	\subsubsection{Stereo Tracking algorithm}
-		Attending to the quadrotor's application, the following table gather some process's duration and it speed:
+	\subsubsection{Algoritmo de seguimiento est\'ereo}
+		En este caso existen dos proveedores de informaci\'on (Dos quadrotors con dos Odroids) que se comunican con la estaci\'on en tierra para el seguimiento del objetivo. La siguiente tabla muestra los tiempos de proceso dentro de la Odroid.
 		% 666 TODO: quitar el filtro de media del tratamiento que ralentiza mucho
 		\newline
 		\newline
@@ -190,7 +181,7 @@
 		}
 		\newline
 		
-		This second table gather the time information in the Ground Station application:
+		Esta segunda tabla muestra los tiempos en la estaci\'on en tierra.
 		\newline
 		
 		{
@@ -206,13 +197,13 @@
 	\begin{figure}[ph]
 		\centering
 		\includegraphics[width=0.7\linewidth]{../Images/c4/arch_trajs_stero}
-		\caption{Original and tracked trajectories}
+		\caption{Ejecuci\'on en Odroid - Trayectorias}
 		\label{fig:arch_trajs_stero}
 	\end{figure}
 	
 	\begin{figure}[ph]
 		\centering
 		\includegraphics[width=0.6\linewidth]{../Images/c4/arch_3d_trajs_stero}
-		\caption{3d trajectories}
+		\caption{Ejecuci\'on en Odroid - Trayectorias 3D}
 		\label{fig:arch_3d_trajs_stero}
 	\end{figure}

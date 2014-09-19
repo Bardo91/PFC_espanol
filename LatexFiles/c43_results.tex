@@ -18,14 +18,7 @@
 
 	La figura: \ref{fig:frames_PC} muestra una imagen del dataset capturada por las c\'amaras de los quadqrotors y el resultado de la segmentaci\'on por color. Sin embargo, a diferencia de las simulaciones en esta hay m\'ultiples objetos pequeños que tienen que ser cribados con un filtro de color y de tama\~no.
 
-\subsection{Test en el PC}
-	Caracter\'isticas del sistema:
-	\begin{itemize}
-		\item{Resoluci\'on de las im\'agenes: 640x480}
-		\item{Intel core i7 2.20 GHz. Uso del procesador 7-10\%}
-		\item{6 GB of RAM. Uso de la memoria $\sim$ 5000-7000 KB}
-	\end{itemize}
-	
+\subsection{Simulaci\'on no distribuida}	
 	\subsubsection{Algoritmo de seguimiento terrestre}
 	
 	Los datasets fueron grabados en est\'ereo. Sin embargo, las primeras pruebas fueron con los objetivos en tierra por lo que usando la informaci\'ion de una sola de las c\'amaras puede probarse el algoritmo. La siguiente tabla muestra unos estad\'isticos del algoritmo: \\
@@ -47,20 +40,22 @@
 	}
 	
 	Las siguientes gr\'aficas muestran los resultados de las trayectorias \ref{fig:trajectories_PC} y los errores de estimaci\'on   \ref{fig:errors_PC}. Los errores est\'an acotados superiormente por $0.2 m$.
-	
-	\begin{figure}[hp]
-		\centering
-		\includegraphics[width=0.75\linewidth]{../Images/c4/trajs}
-		\caption{Ejecuci\'on en pc - Trayectorias original y Calculadas.}
-		\label{fig:trajectories_PC}
+	\begin{figure}
+	     \centering
+	     \begin{subfigure}[b]{0.4\textwidth}
+			\includegraphics[width=\linewidth]{../Images/c4/trajs}
+			\caption{Ejecuci\'on no distribuida  - Trayectorias original y Calculadas.}
+			\label{fig:trajectories_PC} 
+	     \end{subfigure}%
+	     ~
+	     \begin{subfigure}[b]{0.4\textwidth}
+			\includegraphics[width=\linewidth]{../Images/c4/errors}
+			\caption{Ejecuci\'on no distribuida - Errores}
+			\label{fig:errors_PC}
+	     \end{subfigure}
+	     \caption{$Head Scene$}
 	\end{figure}
-	
-	\begin{figure}[hp]
-		\centering
-		\includegraphics[width=0.5\linewidth]{../Images/c4/errors}
-		\caption{Ejecuci\'on en pc - Errores}
-		\label{fig:errors_PC}
-	\end{figure}
+
 	
 	\newpage
 	
@@ -73,7 +68,7 @@
 		
 	\subsubsection{Algoritmo de seguimiento est\'ereo}
 	
-	En este caso se usa la informaci\on de ambas c\'amaras para la estimaci\'on de posici\'on: \\
+	En este caso se usa la informaci\'on de ambas c\'amaras para la estimaci\'on de posici\'on: \\
 		
 	{                
 	\centering
@@ -104,9 +99,9 @@
 		\label{fig:errors_stereo_PC}
 	\end{figure}	
 	
-	\newpage
-	
-\subsection{Test en el ordenador de abordo}
+
+\newpage	
+\subsection{Experimento distribuido}
 	\label{test_with_odroid_and_GT}
 	
 	\begin{wrapfigure}{r}{0.5\linewidth}
@@ -115,13 +110,7 @@
 		\label{fig:odroidu3}
 	\end{wrapfigure}
 		
-	Para estos test se us\'o el esquema de software descrito en secciones anteriores para la estaci\'on en tierra \ref{fig:GroundStation} y para el quadrotor \ref{fig:Quadsoftware}, conectados a trav\'es de la red. La siguiente lista muestra las caracter\'isticas generales del ordenador de abordo (Odroid U3 de Hardkernel)
-	
-	\begin{itemize}
-		\item 1.7GHz Quad-Core processor 
-		\item 2GB RAM
-		\item GPU ARM Mali-400 Quad Core 440MHz  
-	\end{itemize}
+	Para estos test se us\'o el esquema de software descrito en secciones anteriores para la estaci\'on en tierra \ref{fig:GroundStation} y para el quadrotor \ref{fig:Quadsoftware}, conectados a trav\'es de la red. 
 	
 	\subsubsection{Algoritmo de seguimiento terrestre}
 	

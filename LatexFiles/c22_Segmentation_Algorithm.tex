@@ -12,16 +12,19 @@ Se divide el espacio de colores tal que se puedan seleccionar en función de est
 
 La siguiente figura muestra un ejemplo de la ejecuci\'on del algoritmo.
 
-\begin{figure}[hbp]
-	\centering
-	\includegraphics[width=0.4\linewidth]{../Images/c2/head_scene_tsukuba_ori}
-	\caption{Imagen original de $Head Scene$}
-	\label{fig:head_scene_tsukuba_ori}
+\begin{figure}
+        \centering
+        \begin{subfigure}[b]{0.4\textwidth}
+	        \includegraphics[width=\linewidth]{../Images/c2/head_scene_tsukuba_ori}
+        	\caption{Original}
+        	\label{fig:head_scene_tsukuba_ori}   
+        \end{subfigure}%
+        ~
+        \begin{subfigure}[b]{0.4\textwidth}
+            \includegraphics[width=\linewidth]{../Images/c2/head_scene_tsukuba_seg}
+           	\caption{Segmentada}
+           	\label{fig:head_scene_tsukuba_seg}
+        \end{subfigure}
+        \caption{$Head Scene$}
 \end{figure}
 
-\begin{figure}[htp]
-	\centering
-	\includegraphics[width=0.4\linewidth]{../Images/c2/head_scene_tsukuba_seg}
-	\caption{Imagen segmentada de $Head Scene$}
-	\label{fig:head_scene_tsukuba_seg}
-\end{figure}

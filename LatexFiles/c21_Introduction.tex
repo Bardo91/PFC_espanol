@@ -1,5 +1,9 @@
 Existen muchas aproximaciones para sistemas de visi\'on basados en la segmentaci\'on \cite{fast_segmentation_Mitra} \cite{fuzzy_segmentation}. Aquellos centrados en el procesamiento a tiempo real pueden llevarse a cabo por hardware, sin embargo esto requiere una dependencia con la plataforma. En el caso de este proyecto, desarrollamos un algoritmo \'unicamente en software pudiendo aplicarse a cualquier plataforma. En rasgos generales, el software se compone de tres partes: Una primera que se encarga de la segmentación en color de la imagen y la extracción de objetos 2-D basado en el algoritmo de CMU \cite{JamesBruce_CMU_SEG} (Color Cluster Segmentation: \textbf{CCS} en adelante); Una segunda parte que recibe los objetos 2-D anteriores (y en caso de vision est\'ereo hace el emparejamiento entre ambos objetos); Y final mente un filtro de Kalman extendido \cite{GabrielTerejanu_EKF} (\textbf{EKF}) que se encarga de triangular y filtrar la posición de los objetos. 
 
+
+% % IMAGEN ESQUEMA GENERAL!
+
+
 Antes de la explicaci\'on detallada, se muestra el siguiente pseudo codigo del proceso:
 
 \begin{algorithm}[hp]

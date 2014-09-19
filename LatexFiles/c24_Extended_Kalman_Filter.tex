@@ -1,7 +1,6 @@
 %----------------------------------------------------------
 \subsection{Modelo del sistema} \label{subsec:system_model}
-
-El sistema consiste en un quadrotor portando una c\'amara (Figure: \ref{fig:Pinhole_Model}). Las coordenadas de los puntos del espacio respecto a los ejes del la c\'amara son:
+El sistema consiste en un quadrotor portando una c\'amara. Las coordenadas de los puntos del espacio respecto a los ejes del la c\'amara son:
 
 \begin{equation}
 \left. \overrightarrow{P_{obj}} = \overrightarrow{C} + \bar{\bar{R}}^{T}*\overrightarrow{P_{c}} \right|_c
@@ -39,51 +38,27 @@ P_{obj} =
 
 %----------------------------------------------------------
 \subsection{Camera Model}
-	El modelo de la c\'amara \cite{camera_models}  y sus ecuaciones fueron descritas en la secci\'on del algoritmo de matching \ref{fig:Pinhole_Model}.
+	El modelo de la c\'amara \cite{camera_models}  y sus ecuaciones fueron descritas en la secci\'on del algoritmo de matching.
+	
+	\begin{figure}[ph]
+		\centering
+		\includegraphics[width=0.7\linewidth]{../Images/c2/pinhole_model}
+		\caption{}
+		\label{fig:pinhole_model}
+	\end{figure}
+
 	
 %----------------------------------------------------------
 \subsection{Extended Kalman Filter}
 
-El filtro de calman es un algoritmo iterativo de estimaci\'on de estados de sistemas din\'amicos. Este suele ser aplicado cuando se necesita saber el estado de un sistema con m\'as mediciones que grados de libertad del sistema y para la atenuaci\'on de ruido blanco en las estimaciones. En este caso usamos una aproximaci\'on lineal del sistema con una variante llamada Filtro de Kalman Extendido \cite{GabrielTerejanu_EKF} (o EKF). Por lo que en primer lugar es necesario linealizar el sistema.
+El filtro de Kalman es un algoritmo iterativo de estimaci\'on de estados de sistemas din\'amicos. Este suele ser aplicado cuando se necesita saber el estado de un sistema con m\'as mediciones que grados de libertad del sistema y para la atenuaci\'on de ruido blanco en las estimaciones. En este caso usamos una aproximaci\'on lineal del sistema con una variante llamada Filtro de Kalman Extendido \cite{GabrielTerejanu_EKF} (o EKF).
 
-\begin{equation}
-P_{obj} = 
-	\begin{pmatrix}
-	x_k \\
-	y_k \\
-	z_k \\
-	v^{x}_k \\
-	v^{y}_k \\
-	v^{z}_k \\
-	\end{pmatrix}
-=
-	\begin{pmatrix}
-	1 & 0 & 0 & \Delta{t} & 0 & 0 \\
-	0 & 1 & 0 & 0 & \Delta{t} & 0 \\
-	0 & 0 & 1 & 0 & 0 & \Delta{t} \\
-	0 & 0 & 0 & 1 & 0 & 0 \\
-	0 & 0 & 0 & 0 & 1 & 0 \\
-	0 & 0 & 0 & 0 & 0 & 1 \\
-	\end{pmatrix}
-*
-	\begin{pmatrix}
-	x_{k-1} \\
-	y_{k-1} \\
-	z_{k-1} \\
-	v^{x}_{k-1} \\
-	v^{y}_{k-1} \\
-	v^{z}_{k-1} \\
-	\end{pmatrix}
-\end{equation}
-
-Considerando las siguientes ecuaciones de estado y ecuaciones de observador del sistema con ruido añadido: \\
+Sea el sistema a estudiar:
 
 \begin{gather}
 x_k = f(x_{k-1}) + w_{k-1} \\
 z_k = h(x_k) + v_k
 \end{gather}
-
-Siendo $x_k$ el estado del sistema, $z_k$ el estado observador, y $f(·) \& h(·)$ las ecuaciones dl sistema con sus ruidos: $ w_k ; v_k$. \\
 
 Cada paso del EKF esta formado de dos iteraciones llamadas "Predictor" y "corrector"
 
@@ -101,128 +76,3 @@ Cada paso del EKF esta formado de dos iteraciones llamadas "Predictor" y "correc
 			x_k^{a} \approx x_k^{f} + K_k (z_k - h(x_k^{f}))
 		\end{gather}
 \end{itemize}
-
-En estas ecuaciones, $J_h$ y $J_f$ son las matrices jacobianas del sistema y del observador. Estas pueden ser calculadas con las ecuaciones del sistema y del modelo de la c\'amara: \\
-
-\[J_h =  
-	\begin{pmatrix}
-		\frac{\partial h_1}{\partial x_1} & \dots & \frac{\partial h_1}{\partial x_n} \\
-		\vdots & \ddots & \vdots \\
-		\frac{\partial h_m}{\partial x_1} & \dots & \frac{\partial h_m}{\partial x_n}
-	\end{pmatrix}
-\]
-
-E igualmente con $ J_f$. Las siguientes ecuaciones muestran el proceso de adquisici\'on de los jacobianos. \\
-
-\begin{equation} \label{eq:observation_equation}
-z_k =
-	\begin{pmatrix}
-		x_{img} \\
-		y_{img}
-	\end{pmatrix}
-\stackrel{\ref{eq:pinhole_cam_eq}}{=}
-	\begin{pmatrix}
-		f*\frac{y_c}{x_c} \\
-		f*\frac{z_c}{x_c}
-	\end{pmatrix}
-\end{equation}
-
-Tomando \ref{eq:system_equation} y aislando el vector de posicion del objetivo en el sistema de coordenadas de la c\'amara: \\
-
-\begin{equation}
-\ref{eq:system_equation} \Rightarrow 
-	\begin{pmatrix}
-		x_c \\
-		y_c \\
-		z_c 
-	\end{pmatrix}
-=
-	\begin{pmatrix}
-		r_{11} & r_{12} & r_{13} \\
-		r_{21} & r_{22} & r_{23} \\
-		r_{31} & r_{32} & r_{33}
-	\end{pmatrix}
-*
-	\begin{pmatrix}
-		x - c_x \\
-		y - c_y \\
-		z - c_z
-	\end{pmatrix}
-\end{equation}
-
-Individualmente cada coordenada:
-
-\begin{equation}
-\left\{ 
-	\begin{aligned}
-		x_c = r_{11}(x-c_x) + r_{12}(y-c_y) + r_{13}(z-c_z) \\
-		y_c = r_{21}(x-c_x) + r_{22}(y-c_y) + r_{23}(z-c_z) \\
-		z_c = r_{31}(x-c_x) + r_{32}(y-c_y) + r_{33}(z-c_z) 
-	\end{aligned} \right.
-\end{equation}
-
-Introduciendo dicho resultado en las ecuaciones \ref{eq:observation_equation}: \\
-
-\begin{equation}
-z_k =
-	\begin{pmatrix}
-		-f·\frac{r_{11}(x-c_x) + r_{12}(y-c_y) + r_{13}(z-c_z)}{r_{31}(x-c_x) + r_{32}(y-c_y) + r_{33}(z-c_z)} \\
-		f·\frac{r_{21}(x-c_x) + r_{22}(y-c_y) + r_{23}(z-c_z)}{r_{31}(x-c_x) + r_{32}(y-c_y) + r_{33}(z-c_z)}
-	\end{pmatrix}
-\end{equation}
-
-Esta ecuacion del sistema observador solo incluye la información de una c\'amara. Los siguientes apartados describen por separado el caso de seguimiento de un objeto terrestre donde solo se necesita una c\'amara y el caso de objetos con trayectorias tridimensionales, en cuyo caso s enecesitan dos c\'amaras. \\
-
-%%% ------------------------------------------------------------------------------------------------
-\subsubsection{Seguimiento de objetos terrestres}
-Suponemos pues que la dimensi\'on $z$ del objetivo es constante. En este caso, el estado del sistema se puede describir como $x_k = (x, y, v_x, v_y)$. Bas\'andonos en las ecuaciones del sistema \ref{subsec:system_model}y del observador \ref{eq:observation_equation}, obtenemos los siguientes jacobianos.
-
-\begin{equation}
-J_f = 
-	\begin{pmatrix}
-			1		&		0		&		\Delta_t	&		0					\\
-			0		&		1		&		0					&		\Delta_t	\\
-			0		&		0		&		1					&		0					\\
-			0		&		0		&		0					&		1
-	\end{pmatrix}
-\end{equation}
-
-\begin{equation}
-J_h = 
-	\begin{pmatrix}
-		-\frac{r_{11}z_c - r_{31}x_c}{x_c^2} & -\frac{r_{12}z_c - r_{32}x_c}{z_c^2}  & 0 & 0  \\
-		\frac{r_{21}z_c - r_{31}y_c}{x_c^2} & \frac{r_{22}z_c - r_{32}y_c}{z_c^2}  & 0 & 0 
-	\end{pmatrix}
-\end{equation}
-
-Tal que $(x_c, y_c, z_c)$ son las posiciones del objeto relativas a la c\'amara y los $r_ij$ son los elementos $(i,j)$ de la matriz de rotaci\'on de la c\'amara.\\ 
-
-%%% ------------------------------------------------------------------------------------------------
-\subsubsection{Seguimiento Est\'ereo}
-En esta caso el estado del sistema es $x_k = (x, y, z, v_x, v_y, v_z)$. Bas\'andonos en las ecuaciones del sistema \ref{subsec:system_model}y del observador \ref{eq:observation_equation}, obtenemos los siguientes jacobianos.
-
-\begin{equation}
-J_f = 
-	\begin{pmatrix}
-			1		&		0		&		0		&		\Delta_t	&		0					&		0					\\
-			0		&		1		&		0		&		0					&		\Delta_t	&		0					\\
-			0		&		0		&		1		&		0					&		0					&		\Delta_t	\\
-			0		&		0		&		0		&		1					&		0					&		0					\\
-			0		&		0		&		0		&		0					&		1					&		0					\\
-			0		&		0		&		0		&		0					&		0					&		1
-	\end{pmatrix}
-\end{equation}
-
-\begin{equation}
-J_h = 
-	\begin{pmatrix}
-		-\frac{r_{11}^{c1}z^{c1}_c - r_{31}^{c1}x^{c1}_c}{{(z^{c1}_c)}^2} & -\frac{r_{12}^{c1}z^{c1}_c - r_{32}^{c1}x^{c1}_c}{{(z^{c1}_c)}^2} & -\frac{r_{13}^{c1}z^{c1}_c - r_{33}^{c1}x^{c1}_c}{{(z^{c1}_c)}^2} & 0 & 0 & 0 \\
-		\frac{r_{21}^{c1}z_c^{c1} - r_{31}^{c1}y_c^{c1}}{{(z^{c1}_c)}^2} & \frac{r_{22}^{c1}z_c^{c1} - r_{32}^{c1}y_c^{c1}}{{(z^{c1}_c)}^2} & \frac{r_{23}^{c1}z_c^{c1} - r_{33}^{c1}y_c^{c1}}{{(z^{c1}_c)}^2} & 0 & 0 & 0 \\
-		
-		-\frac{r_{11}^{c2}z^{c2}_c - r_{31}^{c2}x^{c2}_c}{{(z^{c2}_c)}^2} & -\frac{r_{12}^{c2}z^{c2}_c - r_{32}^{c2}x^{c2}_c}{{(z^{c2}_c)}^2} & -\frac{r_{13}^{c2}z^{c2}_c - r_{33}^{c2}x^{c2}_c}{{(z^{c2}_c)}^2} & 0 & 0 & 0 \\
-		\frac{r_{21}^{c2}z_c^{c2} - r_{31}^{c2}y_c^{c2}}{{(z^{c2}_c)}^2} & \frac{r_{22}^{c2}z_c^{c2} - r_{32}^{c2}y_c^{c2}}{{(z^{c2}_c)}^2} & \frac{r_{23}^{c2}z_c^{c2} - r_{33}^{c2}y_c^{c2}}{{(z^{c2}_c)}^2} & 0 & 0 & 0 \\
-				
-	\end{pmatrix}
-\end{equation}
-
-Siendo $(x_c, y_c, z_c)$ las coordenadas del objetos relativas a la posición de la cámara, $r_ij$ los elementos $(i,j)$ de la matriz de rotacin\'on de la cámara y $c_i$ relativo a la c\'amara i.

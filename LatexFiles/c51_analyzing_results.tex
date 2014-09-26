@@ -1,11 +1,11 @@
-\section{Strengths and weaknesses}
+\section{Introducci\'on}
 	Resumiendo, este documento muestra un algoritmo de tracking basado en visi\'on para ser usados en UAVs. Este algoritmo es capaz de realizar tracking de m\'ultiples objetos basados en su color. Esta caracter\'istica es una de las principales ventajas del algoritmo frente a otros como CAMSHIFT's \cite{CAMSHIFT_FAST} \cite{CAMSHIFT_ENVIROMENT}. El cuello de botella de los algoritmos de segmentaci\'on es el tiempo de computaci\'on, sin embargo el algoritmo descrito anteriormente permite al ordenador de abordo de los UAVs procesar r\'apidamente las im\'agenes capturadas.
-	En paralelo al desarrollo del algoritmo se desarrol\'o una libreria multi-plataforma parar poder hacer un uso r\'apido del c\'odigo. A parte de otras ventajas que conlleva el control de versiones. El ap\'endice A \ref{chap:c6_bovil} contiene una breve descripci\'on de la librer\'ia
+	En paralelo al desarrollo del algoritmo se desarrol\'o una libreria multi-plataforma parar poder hacer un uso r\'apido del c\'odigo. A parte de otras ventajas que conlleva el control de versiones. El ap\'endice \ref{chap:c6_bovil} contiene una breve descripci\'on de la librer\'ia
 	% % TODO 666 ADD CITES!!
 	
-\section{Future Branches}	
-	\subsection{Parallel Color Clustering}
-	Como ya se ha comendato, el principal cuello de botella es la segmentaci\'on por color. Cada paso del algoritmo comprueba cada pixel de la im\'agen, por lo que se puede reestructurar esta parte del algoritmo con el paradigma de procesamiento paralelo. Usando la unidad de procesamiento gr\'afica (GPU) en vez de la CPU es posible aumentar notablemente la velocidad del proceso \cite{GPU_CPU_performance} \cite{GPU_parallel_image_processing} \cite{GPU_enabled_parrallel}.
+\section{Ramas futuras}	
+	\subsection{Color Clustering en paralelo}
+	Como ya se ha comentado, el principal cuello de botella es la segmentaci\'on por color. Cada paso del algoritmo comprueba cada p\'ixel de la im\'agen, por lo que se puede reestructurar esta parte del algoritmo con el paradigma de procesamiento paralelo. Usando la unidad de procesamiento gr\'afica (GPU) en vez de la CPU es posible aumentar notablemente la velocidad del proceso \cite{GPU_CPU_performance} \cite{GPU_parallel_image_processing} \cite{GPU_enabled_parrallel}.
 		
 	\begin{figure}[ph]
 		\centering
